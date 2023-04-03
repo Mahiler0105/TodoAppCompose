@@ -1,0 +1,28 @@
+package com.example.todoapp.features.addTask.data.di
+
+import android.content.Context
+import androidx.room.Room
+import com.example.todoapp.features.addTask.data.TaskDao
+import com.example.todoapp.features.addTask.data.TodoDataBase
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
+@Module
+@InstallIn(SingletonComponent::class)
+class DataBaseModule {
+
+    @Provides
+    fun provideTaskDao(todoDataBase: TodoDataBase) : TaskDao{
+        return todoDataBase.TaskDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTodoDatabase(@ApplicationContext appContext: Context) : TodoDataBase {
+        return Room.databaseBuilder(appContext, TodoDataBase::class.java, "TaskDataBase").build()
+    }
+}
